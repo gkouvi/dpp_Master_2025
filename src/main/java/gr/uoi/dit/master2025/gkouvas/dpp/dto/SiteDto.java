@@ -14,7 +14,6 @@ public class SiteDto {
     private String region;
     private String coordinates;
 
-    /** List of building IDs belonging to the site */
-    private List<Long> buildingIds;
+
 }
 

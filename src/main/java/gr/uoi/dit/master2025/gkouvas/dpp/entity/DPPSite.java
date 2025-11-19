@@ -42,4 +42,9 @@ public class DppSite {
     @OneToMany(mappedBy = "site", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonManagedReference("site-buildings")
     private List<Building> buildings;
+
+    @Lob
+    @Column(columnDefinition = "LONGBLOB")
+    private byte[] qrCode;
+
 }

@@ -1,9 +1,13 @@
 package gr.uoi.dit.master2025.gkouvas.dpp.controller;
 
 import gr.uoi.dit.master2025.gkouvas.dpp.dto.BuildingDto;
+import gr.uoi.dit.master2025.gkouvas.dpp.repository.BuildingRepository;
 import gr.uoi.dit.master2025.gkouvas.dpp.service.BuildingService;
 import org.springframework.http.*;
+import gr.uoi.dit.master2025.gkouvas.dpp.entity.Building;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -15,9 +19,11 @@ import java.util.List;
 public class BuildingController {
 
     private final BuildingService buildingService;
+    private final BuildingRepository buildingRepo;
 
-    public BuildingController(BuildingService buildingService) {
+    public BuildingController(BuildingService buildingService, BuildingRepository buildingRepo) {
         this.buildingService = buildingService;
+        this.buildingRepo = buildingRepo;
     }
 
     @GetMapping
@@ -40,5 +46,38 @@ public class BuildingController {
         buildingService.deleteBuilding(id);
         return ResponseEntity.noContent().build();
     }
-}
 
+    // ---------- QR UPLOAD ----------
+    @PostMapping(value = "/{id}/qr", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Void> uploadQr(@PathVariable Long id,
+                                         @RequestParam("file") MultipartFile file) throws Exception {
+
+        Building b = buildingRepo.findById(id).orElseThrow();
+        b.setQrCode(file.getBytes());
+        buildingRepo.save(b);
+        return ResponseEntity.ok().build();
+    }
+
+    // -------- QR RETRIEVE ----------
+    @GetMapping(value = "/qr/{id}", produces = MediaType.IMAGE_PNG_VALUE)
+    public byte[] getQr(@PathVariable Long id) {
+        return buildingRepo.findById(id)
+                .map(Building::getQrCode)
+                .orElse(null);
+    }
+    @GetMapping("/site/{siteId}")
+    public List<BuildingDto> getBuildingsBySite(@PathVariable Long siteId) {
+        return buildingService.getBuildingsBySite(siteId);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<BuildingDto> updateBuilding(
+            @PathVariable Long id,
+            @RequestBody BuildingDto dto) {
+
+        BuildingDto updated = buildingService.updateBuilding(id, dto);
+        return ResponseEntity.ok(updated);
+    }
+
+
+}

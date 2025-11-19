@@ -37,7 +37,7 @@ public class SiteService {
      */
     public SiteDto getSiteById(Long id) {
         DppSite site = siteRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Site not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Η Μονάδα δε βρέθηκε με id: " + id));
         return toDto(site);
     }
 
@@ -58,11 +58,17 @@ public class SiteService {
      * Deletes a site.
      */
     public void deleteSite(Long id) {
-        if (!siteRepository.existsById(id))
-            throw new ResourceNotFoundException("Site not found: " + id);
+
+        DppSite s = siteRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Η Μονάδα δε βρέθηκε: " + id));
+
+        if (!s.getBuildings().isEmpty()) {
+            throw new RuntimeException("Δεν είναι δυνατή η διαγραφή τοποθεσίας με κτίρια.");
+        }
 
         siteRepository.deleteById(id);
     }
+
 
     /**
      * Converts entity → DTO.
@@ -73,14 +79,30 @@ public class SiteService {
         dto.setName(site.getName());
         dto.setRegion(site.getRegion());
         dto.setCoordinates(site.getCoordinates());
-
+/*
         if (site.getBuildings() != null)
             dto.setBuildingIds(site.getBuildings()
                     .stream()
                     .map(Building::getId)
-                    .collect(Collectors.toList()));
+                    .collect(Collectors.toList()));*/
 
         return dto;
     }
+
+    public SiteDto updateSite(Long id, SiteDto dto) {
+
+        DppSite s = siteRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Η Μονάδα δε βρέθηκε: " + id));
+
+        s.setName(dto.getName());
+        s.setRegion(dto.getRegion());
+        s.setCoordinates(dto.getCoordinates());
+
+        DppSite saved = siteRepository.save(s);
+        return toDto(saved);
+    }
+
+
+
 }
 

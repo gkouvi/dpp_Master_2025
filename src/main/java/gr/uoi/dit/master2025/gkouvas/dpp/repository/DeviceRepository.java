@@ -3,6 +3,8 @@ package gr.uoi.dit.master2025.gkouvas.dpp.repository;
 import gr.uoi.dit.master2025.gkouvas.dpp.entity.Device;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
+
 /**
  * Repository for Device entity.
  *
@@ -10,4 +12,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface DeviceRepository extends JpaRepository<Device, Long> {
     // Additional queries will be added later (e.g., findByBuildingId)
+    List<Device> findByBuildingId(Long buildingId);
+
 }

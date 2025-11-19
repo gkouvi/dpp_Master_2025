@@ -74,4 +74,9 @@ public class Device {
     @OneToMany(mappedBy = "device", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonManagedReference("device-maintenance")
     private List<MaintenanceLog> maintenanceLogs;
+
+    @Lob
+    @Column(columnDefinition = "LONGBLOB")
+    private byte[] qrCode;
+
 }

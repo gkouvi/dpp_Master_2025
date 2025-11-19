@@ -3,6 +3,8 @@ package gr.uoi.dit.master2025.gkouvas.dpp.repository;
 import gr.uoi.dit.master2025.gkouvas.dpp.entity.Building;
 import gr.uoi.dit.master2025.gkouvas.dpp.entity.DppSite;
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -23,4 +25,6 @@ public interface BuildingRepository extends JpaRepository<Building, Long> {
      * @return Optional containing the building if found
      */
     Optional<Building> findByNameAndSite(String buildingName, DppSite site);
+    List<Building> findBySiteId(Long siteId);
+
 }

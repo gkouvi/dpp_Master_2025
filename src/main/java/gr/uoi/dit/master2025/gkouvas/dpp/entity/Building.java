@@ -46,4 +46,10 @@ public class Building {
     @OneToMany(mappedBy = "building", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonManagedReference("building-devices")
     private List<Device> devices;
+
+
+    @Lob
+    @Column(columnDefinition = "LONGBLOB")
+    private byte[] qrCode;
+
 }
