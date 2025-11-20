@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <title>Device Details</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>Συσκευή</h2>
+
+    <div id="device-info" class="card">
+        <p><strong>Όνομα:</strong> <span id="name"></span></p>
+        <p><strong>Τύπος:</strong> <span id="type"></span></p>
+        <p><strong>Serial:</strong> <span id="serial"></span></p>
+        <p><strong>Εγκατάσταση:</strong> <span id="instDate"></span></p>
+        <p><strong>Firmware:</strong> <span id="firmware"></span></p>
+        <p><strong>Κατάσταση:</strong> <span id="status"></span></p>
+        <p><strong>Building ID:</strong> <span id="buildingId"></span></p>
+    </div>
+
+    <h3>QR Code</h3>
+    <img id="qrImg" src="" alt="QR Code" style="width: 220px; display:none;">
+
+    <br><br>
+
+    <button onclick="addMaintenance()">Καταχώρηση Συντήρησης</button>
+
+    <button onclick="history.back()">Επιστροφή</button>
+
+</div>
+
+<script src="device.js"></script>
+
+</body>
+</html>

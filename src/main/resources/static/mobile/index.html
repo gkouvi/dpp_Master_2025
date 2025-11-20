@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <title>DPP Mobile</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="manifest" href="manifest.json">
+
+
+    <!-- Mobile-friendly CSS -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- ZXing QR Scanner -->
+    <script src="https://unpkg.com/@zxing/browser@latest"></script>
+</head>
+
+<body>
+
+<h2>DPP Mobile – QR Scan</h2>
+
+<div id="scanner"></div>
+
+<button id="startBtn">Εκκίνηση Σάρωσης QR</button>
+
+<script src="qrcode-scanner.js"></script>
+<script>
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/mobile/service-worker.js')
+            .then(reg => console.log("Service Worker registered:", reg))
+            .catch(err => console.error("Service Worker error:", err));
+    }
+</script>
+
+
+</body>
+</html>
