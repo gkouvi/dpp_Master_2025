@@ -2,10 +2,12 @@ package gr.uoi.dit.master2025.gkouvas.dpp.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import gr.uoi.dit.master2025.gkouvas.dpp.dto.MaintenanceInterval;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -45,6 +47,25 @@ public class Device {
 
     /** Online/Offline/Inactive */
     private String status;
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(
+            name = "device_maintenance_intervals",
+            joinColumns = @JoinColumn(name = "device_id")
+    )
+    @Enumerated(EnumType.STRING)
+    @Column(name = "interval_type")     // ✔ εδώ η αλλαγή
+    private List<MaintenanceInterval> maintenanceIntervals = new ArrayList<>();
+
+
+
+    private String ipAddress;
+
+    private LocalDate lastMaintenanceDate = LocalDate.now();
+
+
+    // NEW FIELD – used for ping monitoring
+    private boolean offline = false;
 
     /**
      * Many devices belong to one building.

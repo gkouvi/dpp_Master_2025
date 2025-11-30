@@ -4,6 +4,7 @@ import gr.uoi.dit.master2025.gkouvas.dpp.dto.DocumentDto;
 import gr.uoi.dit.master2025.gkouvas.dpp.service.DocumentService;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -30,8 +31,17 @@ public class DocumentController {
         return ResponseEntity.ok(documentService.downloadDocument(id));
     }
 
-    @PostMapping
+    /*@PostMapping
     public ResponseEntity<DocumentDto> uploadDocument(@RequestBody DocumentDto dto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(documentService.uploadDocument(dto));
+    }*/
+    @PostMapping("/upload/{deviceId}")
+    public ResponseEntity<DocumentDto> uploadDocument(
+            @PathVariable Long deviceId,
+            @RequestParam("file") MultipartFile file) {
+
+        DocumentDto saved = documentService.saveDocument(deviceId, file);
+        return ResponseEntity.status(HttpStatus.CREATED).body(saved);
     }
+
 }

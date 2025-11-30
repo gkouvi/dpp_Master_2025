@@ -18,5 +18,11 @@ public interface MaintenanceRepository extends JpaRepository<MaintenanceLog, Lon
      * @param deviceId the device ID
      * @return list of maintenance logs for the device
      */
+   /* List<MaintenanceLog> findByDevice_DeviceId(Long deviceId);*/
+
     List<MaintenanceLog> findByDevice_DeviceId(Long deviceId);
+    List<MaintenanceLog> findByBuilding_Id(Long buildingId);
+    List<MaintenanceLog> findAll();
+
 }
+

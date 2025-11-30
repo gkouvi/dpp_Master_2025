@@ -7,9 +7,11 @@ import gr.uoi.dit.master2025.gkouvas.dpp.exception.ResourceNotFoundException;
 import gr.uoi.dit.master2025.gkouvas.dpp.repository.DeviceRepository;
 import gr.uoi.dit.master2025.gkouvas.dpp.repository.DocumentRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -63,5 +65,24 @@ public class DocumentService {
         dto.setData(doc.getData());
         return dto;
     }
+    public DocumentDto saveDocument(Long deviceId, MultipartFile file) {
+        try {
+            Document entity = new Document();
+            Optional<Device> device = deviceRepository.findById(deviceId);
+            entity.setDevice(device.get());
+            entity.setFilename(file.getOriginalFilename());
+            entity.setFileType(file.getContentType());
+            entity.setUploadedAt(LocalDateTime.now());
+            entity.setData(file.getBytes());
+
+            documentRepository.save(entity);
+DocumentDto dto = toDto(entity);
+            return dto;
+
+        } catch (Exception e) {
+            throw new RuntimeException("Upload failed", e);
+        }
+    }
+
 }
 

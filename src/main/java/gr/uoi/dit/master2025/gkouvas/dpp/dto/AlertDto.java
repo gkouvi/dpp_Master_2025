@@ -8,6 +8,7 @@ import java.time.LocalDate;
  * Data Transfer Object for Alert.
  * Used to decouple API layer from JPA entity.
  */
+
 @Data
 public class AlertDto {
 
@@ -16,4 +17,6 @@ public class AlertDto {
     private String message;
     private LocalDate dueDate;
     private String status;
+    private String deviceName;
+
 }

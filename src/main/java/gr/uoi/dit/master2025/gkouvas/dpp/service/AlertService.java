@@ -6,8 +6,11 @@ import gr.uoi.dit.master2025.gkouvas.dpp.entity.Device;
 import gr.uoi.dit.master2025.gkouvas.dpp.exception.ResourceNotFoundException;
 import gr.uoi.dit.master2025.gkouvas.dpp.repository.AlertRepository;
 import gr.uoi.dit.master2025.gkouvas.dpp.repository.DeviceRepository;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Service;
 
+import java.net.URI;
+import java.net.http.HttpResponse;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -59,7 +62,7 @@ public class AlertService {
     public AlertDto createAlert(AlertDto dto) {
         Device device = deviceRepository.findById(dto.getDeviceId())
                 .orElseThrow(() -> new ResourceNotFoundException(
-                        "Device not found with id: " + dto.getDeviceId()));
+                        "Δεν βρέθηκε συσκευή με id: " + dto.getDeviceId()));
 
         Alert alert = new Alert();
         alert.setDevice(device);
@@ -74,15 +77,36 @@ public class AlertService {
     /**
      * Maps Alert entity to AlertDto.
      */
+
+
     private AlertDto toDto(Alert alert) {
         AlertDto dto = new AlertDto();
         dto.setAlertId(alert.getAlertId());
         dto.setMessage(alert.getMessage());
         dto.setDueDate(alert.getDueDate());
         dto.setStatus(alert.getStatus());
+
         if (alert.getDevice() != null) {
             dto.setDeviceId(alert.getDevice().getDeviceId());
+            // Στέλνουμε και το όνομα της συσκευής
+            dto.setDeviceName(alert.getDevice().getName());
         }
+
         return dto;
     }
+
+    public AlertDto updateAlert(AlertDto dto) {
+        Alert entity = alertRepository.findById(dto.getAlertId())
+                .orElseThrow(() -> new RuntimeException("Δεν βρέθηκε ειδοποίηση"));
+
+        entity.setMessage(dto.getMessage());
+        entity.setStatus(dto.getStatus());
+        entity.setDueDate(dto.getDueDate());
+        entity.setDevice(deviceRepository.findById(dto.getDeviceId()).orElse(null));
+
+        return toDto(alertRepository.save(entity));
+    }
+
+
+
 }

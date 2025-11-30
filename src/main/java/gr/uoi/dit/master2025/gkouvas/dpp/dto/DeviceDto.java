@@ -4,6 +4,8 @@ import gr.uoi.dit.master2025.gkouvas.dpp.entity.Device;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.Base64;
+import java.util.List;
 
 /**
  * Data Transfer Object for Device.
@@ -20,6 +22,11 @@ public class DeviceDto {
     private String firmwareVersion;
     private String status;
     private String qrBase64;
+    private List<MaintenanceInterval> maintenanceIntervals;
+    private String buildingName;
+
+
+
 
     public String getQrBase64() { return qrBase64; }
     public void setQrBase64(String qrBase64) { this.qrBase64 = qrBase64; }
@@ -29,6 +36,9 @@ public class DeviceDto {
      * Optional: the building ID this device belongs to.
      */
     private Long buildingId;
+    private String ipAddress;   // NEW
+    private boolean offline;
+    private LocalDate lastMaintenanceDate;
 
 
     /**
@@ -45,10 +55,21 @@ public class DeviceDto {
         this.firmwareVersion = device.getFirmwareVersion();
         this.status = device.getStatus();
 
-        // Building ID mapping (null-safe)
+        this.ipAddress = device.getIpAddress();
+        this.offline = device.isOffline();
+
+        this.maintenanceIntervals = device.getMaintenanceIntervals();
+        this.lastMaintenanceDate = device.getLastMaintenanceDate();
+
+        // Map buildingId
         this.buildingId = (device.getBuilding() != null)
                 ? device.getBuilding().getId()
                 : null;
+
+        // QR as Base64
+        if (device.getQrCode() != null) {
+            this.qrBase64 = Base64.getEncoder().encodeToString(device.getQrCode());
+        }
     }
 
 

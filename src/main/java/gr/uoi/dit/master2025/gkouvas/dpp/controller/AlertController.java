@@ -53,4 +53,21 @@ public class AlertController {
         AlertDto created = alertService.createAlert(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
+    @PutMapping("/{alertId}")
+    public ResponseEntity<AlertDto> updateAlert(
+            @PathVariable Long alertId,
+            @RequestBody AlertDto dto) {
+
+        dto.setAlertId(alertId);
+        AlertDto updated = alertService.updateAlert(dto);
+        return ResponseEntity.ok(updated);
+    }
+
+    @PostMapping("/ping")
+    public AlertDto createPingAlert(@RequestBody AlertDto dto) {
+        return alertService.createAlert(dto);
+    }
+
+
+
 }

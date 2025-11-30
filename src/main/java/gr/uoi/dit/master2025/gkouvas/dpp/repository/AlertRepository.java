@@ -1,5 +1,6 @@
 package gr.uoi.dit.master2025.gkouvas.dpp.repository;
 
+import gr.uoi.dit.master2025.gkouvas.dpp.dto.AlertDto;
 import gr.uoi.dit.master2025.gkouvas.dpp.entity.Alert;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
@@ -19,4 +20,7 @@ public interface AlertRepository extends JpaRepository<Alert, Long> {
      * @return list of alerts for the device
      */
     List<Alert> findByDevice_DeviceId(Long id);
+
+   // AlertDto updateAlert(AlertDto dto);
+
 }
