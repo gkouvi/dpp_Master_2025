@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <title>Ιστορικό Συντήρησης – DPP Mobile</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>Ιστορικό Συντήρησης</h2>
+
+    <div id="deviceHeader" class="card">
+        <p><strong>Συσκευή:</strong> <span id="devName"></span></p>
+        <p><strong>Serial:</strong> <span id="devSerial"></span></p>
+    </div>
+
+    <h3>Καταχωρήσεις</h3>
+    <div id="maintenanceList"></div>
+
+    <button onclick="newMaintenance()">➕ Νέα Συντήρηση</button>
+    <button onclick="history.back()">⬅ Επιστροφή</button>
+
+</div>
+
+<script src="maintenance-history.js"></script>
+
+</body>
+</html>

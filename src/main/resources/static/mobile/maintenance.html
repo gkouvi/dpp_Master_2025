@@ -15,8 +15,16 @@
 
     <div class="card">
 
+        <label>Διάστημα συντήρησης:</label>
+        <select id="intervalSelect">
+            <option value="DAILY">Ημερήσια</option>
+            <option value="MONTHLY">Μηνιαία</option>
+            <option value="SEMI_ANNUAL">Εξαμηνιαία</option>
+            <option value="ANNUAL">Ετήσια</option>
+        </select>
+
         <label>Περιγραφή:</label>
-        <textarea id="desc" rows="4"></textarea>
+        <textarea id="notesInput" rows="4"></textarea>
 
         <label>Τεχνικός:</label>
         <input id="technician" type="text">
@@ -26,7 +34,7 @@
 
     </div>
 
-    <button onclick="submitMaintenance()">Αποθήκευση</button>
+    <button onclick="createMaintenance()">Αποθήκευση</button>
     <button onclick="history.back()">Επιστροφή</button>
 
 </div>

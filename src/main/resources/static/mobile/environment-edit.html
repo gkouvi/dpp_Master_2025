@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <title>Περιβαλλοντικές Πληροφορίες</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+<div class="container">
+
+    <h2>Επεξεργασία Περιβαλλοντικών</h2>
+
+    <div class="card">
+
+        <label>Υλικά Κατασκευής:</label>
+        <textarea id="materials" rows="4"></textarea>
+
+        <label>Οδηγίες Ανακύκλωσης:</label>
+        <textarea id="recycling" rows="4"></textarea>
+
+        <label>Επικίνδυνα Υλικά:</label>
+        <textarea id="hazardous" rows="3"></textarea>
+
+        <label>Ανακυκλωσιμότητα (%):</label>
+        <input type="number" id="recyclability">
+
+        <label>Βάρος συσκευής (kg):</label>
+        <input type="number" id="weight">
+
+    </div>
+
+    <button onclick="saveEnvironmental()">Αποθήκευση</button>
+    <button onclick="history.back()">Επιστροφή</button>
+
+</div>
+
+<script src="environment-edit.js"></script>
+</body>
+</html>

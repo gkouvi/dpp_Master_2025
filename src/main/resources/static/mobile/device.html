@@ -2,7 +2,7 @@
 <html lang="el">
 <head>
     <meta charset="UTF-8">
-    <title>Device Details</title>
+    <title>Συσκευή – DPP Mobile</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="stylesheet" href="style.css">
@@ -14,6 +14,7 @@
 
     <h2>Συσκευή</h2>
 
+    <!-- DEVICE INFO CARD -->
     <div id="device-info" class="card">
         <p><strong>Όνομα:</strong> <span id="name"></span></p>
         <p><strong>Τύπος:</strong> <span id="type"></span></p>
@@ -21,17 +22,52 @@
         <p><strong>Εγκατάσταση:</strong> <span id="instDate"></span></p>
         <p><strong>Firmware:</strong> <span id="firmware"></span></p>
         <p><strong>Κατάσταση:</strong> <span id="status"></span></p>
-        <p><strong>Building ID:</strong> <span id="buildingId"></span></p>
+        <p><strong>Κτίριο:</strong> <span id="buildingId"></span></p>
     </div>
 
+
+    <!-- QR CODE -->
     <h3>QR Code</h3>
-    <img id="qrImg" src="" alt="QR Code" style="width: 220px; display:none;">
+    <img id="qrImg" src="" style="width: 220px; display:none; margin:auto;">
+
+    <!-- ENVIRONMENTAL INFORMATION -->
+    <h3>Περιβαλλοντικές Πληροφορίες</h3>
+    <div class="card" id="env-card">
+        <p><strong>Υλικά:</strong><br> <span id="materials"></span></p>
+        <p><strong>Ανακύκλωση:</strong><br> <span id="recycling"></span></p>
+        <p><strong>Επικίνδυνα Υλικά:</strong><br> <span id="hazardous"></span></p>
+
+        <p><strong>Ανακυκλωσιμότητα:</strong>
+            <span id="recyclability" class="badge"></span>
+        </p>
+
+        <p><strong>Βάρος:</strong> <span id="weight"></span> kg</p>
+    </div>
+
+    <button onclick="editEnvironmental()">✏️ Επεξεργασία Περιβαλλοντικών</button>
+
+    <h3>Ειδοποιήσεις</h3>
+    <div id="alertsScrollArea">
+        <div id="alertsList"></div>
+        <p>Φόρτωση...</p>
+    </div>
+
+
+
+
+
+
+
+    <!-- MAINTENANCE -->
+    <h3>Συντήρηση</h3>
+    <button onclick="addMaintenance()">➕ Καταχώρηση Συντήρησης</button>
+    <button onclick="viewMaintenance()">📄 Προβολή Ιστορικού</button>
+
+
 
     <br><br>
 
-    <button onclick="addMaintenance()">Καταχώρηση Συντήρησης</button>
-
-    <button onclick="history.back()">Επιστροφή</button>
+    <button onclick="history.back()">⬅ Επιστροφή</button>
 
 </div>
 
