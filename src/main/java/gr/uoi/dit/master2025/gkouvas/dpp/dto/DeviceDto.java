@@ -56,7 +56,7 @@ public class DeviceDto {
         this.status = device.getStatus();
 
         this.ipAddress = device.getIpAddress();
-        this.offline = device.isOffline();
+        this.offline = device.getOffline();
 
         this.maintenanceIntervals = device.getMaintenanceIntervals();
         this.lastMaintenanceDate = device.getLastMaintenanceDate();

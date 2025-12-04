@@ -20,7 +20,19 @@
     </div>
 
     <h3>Καταχωρήσεις</h3>
-    <div id="maintenanceList"></div>
+    <div id="maintenanceList">
+        html += `
+        <div class="card">
+            <div><strong>${item.interval}</strong> – ${item.plannedDate || ""}</div>
+            <div>Κατάσταση: ${renderStatus(item.status)}</div>
+            <div>${item.description || ""}</div>
+            ${item.status !== 'COMPLETED' ? `
+            <button onclick="completeMaintenance(${item.id})">
+                Ολοκλήρωση
+            </button>` : ``}
+        </div>
+        `;
+    </div>
 
     <button onclick="newMaintenance()">➕ Νέα Συντήρηση</button>
     <button onclick="history.back()">⬅ Επιστροφή</button>

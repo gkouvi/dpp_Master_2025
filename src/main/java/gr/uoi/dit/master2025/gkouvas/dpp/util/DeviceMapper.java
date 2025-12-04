@@ -18,7 +18,7 @@ public class DeviceMapper {
         dto.setFirmwareVersion(d.getFirmwareVersion());
         dto.setStatus(d.getStatus());
         dto.setIpAddress(d.getIpAddress());   // NEW
-        dto.setOffline(d.isOffline());        // NEW
+        dto.setOffline(d.getOffline());        // NEW
 
         if (d.getBuilding() != null)
             dto.setBuildingId(d.getBuilding().getId());

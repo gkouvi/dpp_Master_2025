@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,7 +66,14 @@ public class Device {
 
 
     // NEW FIELD – used for ping monitoring
-    private boolean offline = false;
+    //private boolean offline = false;
+    @Column
+    private Boolean offline = false;
+
+    @Column
+    private LocalDateTime lastCheck;
+
+
 
     /**
      * Many devices belong to one building.

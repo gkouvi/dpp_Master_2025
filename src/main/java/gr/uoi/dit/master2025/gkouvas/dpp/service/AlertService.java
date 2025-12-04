@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 
 import java.net.URI;
 import java.net.http.HttpResponse;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -105,6 +107,24 @@ public class AlertService {
         entity.setDevice(deviceRepository.findById(dto.getDeviceId()).orElse(null));
 
         return toDto(alertRepository.save(entity));
+    }
+
+    public void createOfflineAlert(Device d) {
+        Alert a = new Alert();
+        a.setDevice(d);
+        a.setStatus("OFFLINE");
+        a.setMessage("Η συσκευή δεν ανταποκρίθηκε στο ping");
+        a.setDueDate(LocalDate.now());
+        alertRepository.save(a);
+    }
+
+    public void createOnlineAlert(Device d) {
+        Alert a = new Alert();
+        a.setDevice(d);
+        a.setStatus("ONLINE");
+        a.setMessage("Η συσκευή είναι ξανά προσβάσιμη");
+        a.setDueDate(LocalDate.now());
+alertRepository.save(a);
     }
 
 

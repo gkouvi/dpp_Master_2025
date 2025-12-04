@@ -80,4 +80,31 @@ async function createMaintenance() {
         alert("Σφάλμα σύνδεσης:\n" + e);
     }
 }
+async function completeMaintenance(id) {
+    try {
+        const res = await fetch(`${API}/maintenance/${id}/complete`, {
+            method: "PUT"
+        });
+
+        if (!res.ok) {
+            alert("Η ολοκλήρωση απέτυχε (" + res.status + ")");
+            return;
+        }
+
+        await loadMaintenanceHistory(); // ανανέωση λίστας
+    } catch (e) {
+        console.error("Complete error", e);
+        alert("Σφάλμα κατά την ολοκλήρωση.");
+    }
+}
+
+function renderStatus(status) {
+    switch (status) {
+        case "COMPLETED": return "Ολοκληρωμένη";
+        case "PLANNED":   return "Προγραμματισμένη";
+        case "OVERDUE":   return "Εκπρόθεσμη";
+        default:          return "—";
+    }
+}
+
 
