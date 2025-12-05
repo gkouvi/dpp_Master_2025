@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * Represents an alert associated with a device.
@@ -37,4 +38,8 @@ public class Alert {
 
     /** Alert status: Active / Resolved */
     private String status;
+
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+
 }

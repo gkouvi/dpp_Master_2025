@@ -28,6 +28,8 @@ public class AlertService {
     public AlertService(AlertRepository alertRepository, DeviceRepository deviceRepository) {
         this.alertRepository = alertRepository;
         this.deviceRepository = deviceRepository;
+
+
     }
 
     /**
@@ -71,6 +73,7 @@ public class AlertService {
         alert.setMessage(dto.getMessage());
         alert.setDueDate(dto.getDueDate());
         alert.setStatus(dto.getStatus());
+        alert.setCreatedAt(LocalDateTime.now());
 
         Alert saved = alertRepository.save(alert);
         return toDto(saved);
@@ -87,6 +90,7 @@ public class AlertService {
         dto.setMessage(alert.getMessage());
         dto.setDueDate(alert.getDueDate());
         dto.setStatus(alert.getStatus());
+        dto.setCreatedAt(alert.getCreatedAt());
 
         if (alert.getDevice() != null) {
             dto.setDeviceId(alert.getDevice().getDeviceId());
@@ -114,7 +118,8 @@ public class AlertService {
         a.setDevice(d);
         a.setStatus("OFFLINE");
         a.setMessage("Η συσκευή δεν ανταποκρίθηκε στο ping");
-        a.setDueDate(LocalDate.now());
+        //a.setDueDate(LocalDate.now());
+        a.setCreatedAt(LocalDateTime.now());
         alertRepository.save(a);
     }
 
@@ -123,7 +128,8 @@ public class AlertService {
         a.setDevice(d);
         a.setStatus("ONLINE");
         a.setMessage("Η συσκευή είναι ξανά προσβάσιμη");
-        a.setDueDate(LocalDate.now());
+        //a.setDueDate(LocalDate.now());
+        a.setCreatedAt(LocalDateTime.now());
 alertRepository.save(a);
     }
 

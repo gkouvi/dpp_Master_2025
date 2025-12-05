@@ -29,5 +29,38 @@ public interface UptimeLogRepository extends JpaRepository<UptimeLog, Long> {
     )
     List<Object[]> getFailureHeatmap();
 
+    @Query("""
+    SELECT 
+        FUNCTION('DAYOFWEEK', a.createdAt) AS day,
+        FUNCTION('HOUR', a.createdAt) AS hour,
+        COUNT(a) AS cnt
+    FROM Alert a
+    GROUP BY 
+        FUNCTION('DAYOFWEEK', a.createdAt),
+        FUNCTION('HOUR', a.createdAt)
+    ORDER BY 
+        FUNCTION('DAYOFWEEK', a.createdAt),
+        FUNCTION('HOUR', a.createdAt)
+""")
+    List<Object[]> getHeatmapCountsRaw();
+
+
+
+
+    @Query("""
+    SELECT DISTINCT 
+        d.name
+    FROM Alert a
+    JOIN a.device d
+    WHERE 
+        (FUNCTION('DAYOFWEEK', a.createdAt)) = :day
+        AND FUNCTION('HOUR', a.createdAt) = :hour
+""")
+    List<String> getDevicesForCell(int day, int hour);
+
+
+
+
+
 
 }

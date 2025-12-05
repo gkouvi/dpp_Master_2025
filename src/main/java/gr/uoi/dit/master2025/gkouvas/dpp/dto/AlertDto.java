@@ -3,6 +3,7 @@ package gr.uoi.dit.master2025.gkouvas.dpp.dto;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * Data Transfer Object for Alert.
@@ -18,5 +19,6 @@ public class AlertDto {
     private LocalDate dueDate;
     private String status;
     private String deviceName;
+    private LocalDateTime createdAt;
 
 }
