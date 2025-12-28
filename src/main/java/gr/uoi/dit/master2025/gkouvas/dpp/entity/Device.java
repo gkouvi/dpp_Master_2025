@@ -3,6 +3,7 @@ package gr.uoi.dit.master2025.gkouvas.dpp.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import gr.uoi.dit.master2025.gkouvas.dpp.dto.MaintenanceInterval;
+import gr.uoi.dit.master2025.gkouvas.dpp.util.DeviceStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -21,9 +22,12 @@ import java.util.List;
  * - Maintenance logs
  */
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(exclude = {"building", "alerts", "documents", "maintenanceLogs"})
+@EqualsAndHashCode(exclude = {"building", "alerts", "documents", "maintenanceLogs"})
 public class Device {
 
     /** Primary key of the device */
@@ -46,8 +50,9 @@ public class Device {
     /** Current firmware version (useful for lifecycle management) */
     private String firmwareVersion;
 
-    /** Online/Offline/Inactive */
-    private String status;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private DeviceStatus status;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(
@@ -107,5 +112,11 @@ public class Device {
     @Lob
     @Column(columnDefinition = "LONGBLOB")
     private byte[] qrCode;
+
+    @Column(name = "bim_element_id", length = 64)
+    private String bimElementId;   // IFC GlobalId (συνήθως 22 chars), κρατάμε 64 για άνεση
+
+    @Column(name = "bim_discipline", length = 50)
+    private String bimDiscipline;  // HVAC, Electrical, Security, etc.
 
 }

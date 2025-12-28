@@ -27,4 +27,5 @@ public interface BuildingRepository extends JpaRepository<Building, Long> {
     Optional<Building> findByNameAndSite(String buildingName, DppSite site);
     List<Building> findBySiteId(Long siteId);
 
+
 }

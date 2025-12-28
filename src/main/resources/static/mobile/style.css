@@ -1,138 +1,194 @@
+/* ----------- RESET ----------- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
 body {
     font-family: Arial, sans-serif;
-    padding: 15px;
-    background: #f4f4f4;
+    background: #0F172A; /* dark navy */
+    color: #E2E8F0;
+    padding-bottom: 80px;
 }
 
+/* ----------- LAYOUT ----------- */
 .container {
-    max-width: 600px;
+    width: 92%;
+    max-width: 480px;
     margin: auto;
+    padding-top: 20px;
 }
 
-.card {
-    background: white;
+/* ----------- HEADER ----------- */
+header {
+    position: sticky;
+    top: 0;
+    background: #1E293B;
     padding: 15px;
-    border-radius: 8px;
-    margin-bottom: 15px;
-    box-shadow: 0 0 5px rgba(0,0,0,0.2);
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    z-index: 10;
+    border-bottom: 1px solid #334155;
 }
 
+/* ----------- CARDS ----------- */
+.card {
+    background: #1E293B;
+    padding: 15px;
+    margin-top: 15px;
+    border-radius: 12px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.3);
+}
+
+/* ----------- TEXT ----------- */
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 15px;
+    color: #94A3B8;
+}
+
+input, textarea, select {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 12px;
+    border-radius: 8px;
+    border: 1px solid #334155;
+    background: #0F172A;
+    color: #E2E8F0;
+    font-size: 15px;
+}
+
+textarea {
+    height: 120px;
+}
+
+/* ----------- BUTTONS ----------- */
 button {
     width: 100%;
     padding: 14px;
-    margin-top: 10px;
-    font-size: 17px;
-    background: #1976D2;
-    color: white;
+    margin-top: 12px;
+    background: #3B82F6;
     border: none;
-    border-radius: 6px;
-}
-
-.badge {
-    font-weight: bold;
-    padding: 4px 8px;
-    border-radius: 6px;
-    color: white;
-}
-
-.badge-green {
-    background: #2ecc71;
-}
-
-.badge-orange {
-    background: #e67e22;
-}
-
-.badge-red {
-    background: #c0392b;
-}
-/* Interval badges */
-.badge-daily {
-    background: #3498db;
-}
-
-.badge-monthly {
-    background: #9b59b6;
-}
-
-.badge-semi_annual {
-    background: #e67e22;
-}
-
-.badge-annual {
-    background: #2ecc71;
-}
-
-/* Mobile improvements */
-.card p {
-    margin: 6px 0;
-}
-.alert-card {
-    background: #fff;
-    padding: 12px;
-    margin-bottom: 10px;
     border-radius: 10px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    color: white;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+button:hover {
+    background: #60A5FA;
+}
+
+button.secondary {
+    background: #475569;
+}
+
+button.secondary:hover {
+    background: #64748B;
+}
+
+/* ----------- DEVICE LIST ----------- */
+.device-card {
+    background: #1E293B;
+    padding: 15px;
+    margin-top: 12px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.device-title {
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.device-status.online {
+    color: #4ADE80;
+}
+
+.device-status.offline {
+    color: #F87171;
+}
+
+/* ----------- LOGIN PAGE ----------- */
+.login-container {
+    margin-top: 120px;
+}
+
+.login-box {
+    background: #1E293B;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    text-align: center;
+}
+
+.login-title {
+    font-size: 22px;
+    margin-bottom: 15px;
+}
+
+.error-box {
+    margin-top: 10px;
+    padding: 10px;
+    background: #7F1D1D;
+    color: #FCA5A5;
+    border-radius: 8px;
+    text-align: center;
+}
+
+/* ----------- TABLES (responsive) ----------- */
+.table-container {
+    margin-top: 15px;
+    overflow-x: auto;
+    border-radius: 10px;
+    border: 1px solid #334155;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table th {
+    background: #1E293B;
+    padding: 12px;
+    color: #CBD5E1;
     font-size: 14px;
 }
 
-.alert-header {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 6px;
-    font-weight: bold;
+table td {
+    padding: 10px;
+    border-bottom: 1px solid #334155;
 }
 
-.alert-date {
-    color: #444;
+/* Improve tap targets */
+td, th {
+    min-height: 44px;
 }
 
-.alert-status {
-    padding: 3px 8px;
-    border-radius: 6px;
-    font-size: 12px;
+/* ------ QR Scanner ------ */
+#preview {
+    width: 100%;
+    border-radius: 8px;
+    margin-top: 10px;
 }
 
-.alert-status.offline {
-    background: #ffcccc;
-    color: #900;
-}
-
-.alert-status.online {
-    background: #ccffdd;
-    color: #006600;
-}
-
-.alert-msg {
-    font-size: 13px;
-    color: #333;
-}
-
-.empty {
-    color: #777;
-    font-style: italic;
+/* ----------- FOOTER ----------- */
+.footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background: #1E293B;
     padding: 10px;
     text-align: center;
+    border-top: 1px solid #334155;
+    font-size: 14px;
 }
-#alertsScrollArea {
-    max-height: 400px;      /* καθόρισε το ύψος που θέλεις */
-    overflow-y: auto;       /* ενεργοποιεί την scrollbar */
-    padding-right: 6px;     /* μικρό περιθώριο */
-    margin-top: 10px;
-    border-radius: 10px;
-}
-
-/* Προαιρετική βελτίωση scrollbar για mobile */
-#alertsScrollArea::-webkit-scrollbar {
-    width: 6px;
-}
-
-#alertsScrollArea::-webkit-scrollbar-thumb {
-    background: #bbb;
-    border-radius: 6px;
-}
-
-#alertsScrollArea::-webkit-scrollbar-track {
-    background: #eee;
-}
-

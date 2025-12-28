@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Base64;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -40,6 +41,8 @@ public class BuildingService {
         b.setName(dto.getName());
         b.setAddress(dto.getAddress());
         b.setSite(siteRepository.findById(dto.getSiteId()).orElseThrow());
+        b.setQrCode(b.getQrCode());
+
 
         Building saved = buildingRepository.save(b);
         return toDto(saved);
@@ -77,6 +80,7 @@ public class BuildingService {
         dto.setName(building.getName());
         dto.setAddress(building.getAddress());
         dto.setSiteId(building.getSite() != null ? building.getSite().getId() : null);
+        dto.setQrBase64(Base64.getEncoder().encodeToString(building.getQrCode()));
         return dto;
     }
 

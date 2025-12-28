@@ -1,7 +1,7 @@
 package gr.uoi.dit.master2025.gkouvas.dpp.util;
 
 public enum MaintenanceStatus {
-    PLANNED,    // προγραμματισμένη
-    COMPLETED,  // ολοκληρωμένη
-    OVERDUE     // έχει λήξει χωρίς να γίνει
+    PENDING,     // έχει προγραμματιστεί ή αναμένει εκτέλεση
+    COMPLETED,   // εκτελέστηκε
+    CANCELLED    // ακυρώθηκε
 }

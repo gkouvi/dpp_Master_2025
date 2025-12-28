@@ -66,6 +66,7 @@ public class DocumentService {
         return dto;
     }
     public DocumentDto saveDocument(Long deviceId, MultipartFile file) {
+        System.out.println(file.getOriginalFilename());
         try {
             Document entity = new Document();
             Optional<Device> device = deviceRepository.findById(deviceId);

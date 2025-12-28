@@ -1,8 +1,10 @@
 package gr.uoi.dit.master2025.gkouvas.dpp.repository;
 
+import gr.uoi.dit.master2025.gkouvas.dpp.dto.MaintenanceDailySummaryDTO;
 import gr.uoi.dit.master2025.gkouvas.dpp.entity.MaintenanceLog;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -49,6 +51,38 @@ public interface MaintenanceRepository extends JpaRepository<MaintenanceLog, Lon
             nativeQuery = true
     )
     List<Object[]> getUpcomingByMonthNative();
+
+    @Query("""
+    SELECT new gr.uoi.dit.master2025.gkouvas.dpp.dto.MaintenanceDailySummaryDTO(
+        m.plannedDate,
+        SUM(CASE WHEN m.status = 'CANCELLED' THEN 1 ELSE 0 END),
+        SUM(CASE WHEN m.status = 'COMPLETED' THEN 1 ELSE 0 END),
+        SUM(CASE WHEN m.status = 'PENDING' THEN 1 ELSE 0 END)
+       
+    )
+    FROM MaintenanceLog m
+    WHERE m.device.deviceId = :deviceId
+      AND m.plannedDate IS NOT NULL
+    GROUP BY m.plannedDate
+    ORDER BY m.plannedDate
+""")
+    List<MaintenanceDailySummaryDTO> findDailySummaryByDevice(
+            @Param("deviceId") Long deviceId);
+
+    @Query("""
+    SELECT new gr.uoi.dit.master2025.gkouvas.dpp.dto.MaintenanceDailySummaryDTO(
+        m.plannedDate,
+        SUM(CASE WHEN m.status = 'CANCELLED' THEN 1 ELSE 0 END),
+        SUM(CASE WHEN m.status = 'COMPLETED' THEN 1 ELSE 0 END),
+        SUM(CASE WHEN m.status = 'PENDING' THEN 1 ELSE 0 END)
+    )
+    FROM MaintenanceLog m
+    WHERE m.plannedDate IS NOT NULL
+    GROUP BY m.plannedDate
+    ORDER BY m.plannedDate
+""")
+    List<MaintenanceDailySummaryDTO> findGlobalDailySummary();
+
 
 
 

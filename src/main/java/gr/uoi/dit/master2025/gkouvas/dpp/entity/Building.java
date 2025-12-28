@@ -14,9 +14,12 @@ import java.util.List;
  * and contains multiple devices (e.g., cameras, access control, alarms).
  */
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(exclude = {"site", "devices"})
+@EqualsAndHashCode(exclude = {"site", "devices"})
 public class Building {
 
     /** Primary key of the building */
@@ -51,5 +54,12 @@ public class Building {
     @Lob
     @Column(columnDefinition = "LONGBLOB")
     private byte[] qrCode;
+
+    @Column(name = "bim_model_ref", length = 255)
+    private String bimModelRef;    // π.χ. IFC file, URI, repo ref
+
+    @Column(name = "bim_format", length = 20)
+    private String bimFormat;   // IFC, RVT, etc
+
 
 }

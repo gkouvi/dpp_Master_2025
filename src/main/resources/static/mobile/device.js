@@ -5,6 +5,15 @@ const API = location.origin.includes("8443")
     ? location.origin
     : "https://" + location.hostname + ":8443";
 
+function getToken() {
+    const t = localStorage.getItem("jwt");
+    if (!t) {
+        window.location.href = "login.html";
+        return null;
+    }
+    return t;
+}
+
 
 loadDevice();
 loadEnvironmental();
@@ -16,7 +25,9 @@ async function loadDevice() {
     const url = "https://192.168.0.105:8443/devices/" + deviceId;
 
     try {
-        const res = await fetch(url);
+        const res = await fetch(url, {
+            headers: { "Authorization": "Bearer " + getToken() }
+        });
         const data = await res.json();
 
         document.getElementById("name").textContent = data.name;
@@ -44,7 +55,9 @@ async function loadEnvironmental() {
         //const url = "http://localhost:8080/environment/" + deviceId;
         const url = "https://192.168.0.105:8443/environment/device/" + deviceId;
 
-        const res = await fetch(url);
+        const res = await fetch(url, {
+            headers: { "Authorization": "Bearer " + getToken() }
+        });
 
         if (!res.ok) {
             document.getElementById("materials").textContent = "—";
@@ -74,51 +87,13 @@ async function loadEnvironmental() {
     }
 }
 
-/* ================= LOAD ALERTS =================== */
-/*async function loadAlerts() {
-    try {
-        const url = API + "/alerts/device/" + deviceId;
-        const res = await fetch(url);
 
-        const listDiv = document.getElementById("alertsList");
-
-        if (!res.ok) {
-            listDiv.innerHTML = "<p>Δεν υπάρχουν ειδοποιήσεις.</p>";
-            return;
-        }
-
-        const alerts = await res.json();
-
-        if (alerts.length === 0) {
-            listDiv.innerHTML = "<p>Δεν υπάρχουν ειδοποιήσεις.</p>";
-            return;
-        }
-
-        listDiv.innerHTML = "";
-
-        alerts.forEach(a => {
-            const row = document.createElement("div");
-            row.className = "alert-item";
-
-            row.innerHTML = `
-                <div class="alert-time">${a.dueDate ?? "-"}</div>
-                <div class="alert-type">${a.status ?? "-"}</div>
-                <div class="alert-msg">${a.message ?? ""}</div>
-            `;
-
-            listDiv.appendChild(row);
-        });
-
-    } catch (e) {
-        console.error("ALERTS ERROR:", e);
-        document.getElementById("alertsList").innerHTML =
-            "<p>Σφάλμα κατά τη φόρτωση ειδοποιήσεων.</p>";
-    }
-}*/
 async function loadAlerts() {
     try {
         const url = `${API}/alerts/device/${deviceId}`;
-        const res = await fetch(url);
+        const res = await fetch(url, {
+            headers: { "Authorization": "Bearer " + getToken() }
+        });
 
         if (!res.ok) {
             document.getElementById("alertsList").innerHTML =

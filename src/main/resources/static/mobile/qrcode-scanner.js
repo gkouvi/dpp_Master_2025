@@ -1,5 +1,18 @@
 const codeReader = new ZXingBrowser.BrowserMultiFormatReader();
 const startBtn = document.getElementById("startBtn");
+function getToken() {
+    const t = localStorage.getItem("jwt");
+    if (!t) {
+        window.location.href = "login.html";
+        return null;
+    }
+    return t;
+}
+function logout() {
+    localStorage.removeItem("jwt");
+    window.location.href = "login.html";
+}
+
 
 startBtn.addEventListener("click", async () => {
 

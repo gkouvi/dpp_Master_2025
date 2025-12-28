@@ -10,6 +10,14 @@ const FILES_TO_CACHE = [
     "/mobile/qrcode-scanner.js",
     "/mobile/manifest.json"
 ];
+function getToken() {
+    const t = localStorage.getItem("jwt");
+    if (!t) {
+        window.location.href = "login.html";
+        return null;
+    }
+    return t;
+}
 
 // Install (cache files)
 self.addEventListener("install", event => {

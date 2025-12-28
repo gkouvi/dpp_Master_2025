@@ -1,6 +1,7 @@
 package gr.uoi.dit.master2025.gkouvas.dpp.dto;
 
 import gr.uoi.dit.master2025.gkouvas.dpp.entity.Device;
+import gr.uoi.dit.master2025.gkouvas.dpp.util.DeviceStatus;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -20,17 +21,12 @@ public class DeviceDto {
     private String serialNumber;
     private LocalDate installationDate;
     private String firmwareVersion;
-    private String status;
+    private DeviceStatus status;
     private String qrBase64;
     private List<MaintenanceInterval> maintenanceIntervals;
     private String buildingName;
-
-
-
-
-    public String getQrBase64() { return qrBase64; }
-    public void setQrBase64(String qrBase64) { this.qrBase64 = qrBase64; }
-
+    private String bimElementId;
+    private String bimDiscipline;
 
     /**
      * Optional: the building ID this device belongs to.
@@ -70,6 +66,10 @@ public class DeviceDto {
         if (device.getQrCode() != null) {
             this.qrBase64 = Base64.getEncoder().encodeToString(device.getQrCode());
         }
+
+        this.bimDiscipline = device.getBimDiscipline();
+        this.bimElementId = device.getBimElementId();
+
     }
 
 

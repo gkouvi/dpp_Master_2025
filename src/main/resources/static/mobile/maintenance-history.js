@@ -1,5 +1,14 @@
 const params = new URLSearchParams(window.location.search);
 const deviceId = params.get("id");
+function getToken() {
+    const t = localStorage.getItem("jwt");
+    if (!t) {
+        window.location.href = "login.html";
+        return null;
+    }
+    return t;
+}
+
 
 loadDevice();
 loadHistory();
@@ -7,7 +16,9 @@ loadHistory();
 /* ------------------------- LOAD DEVICE INFO ------------------------- */
 async function loadDevice() {
     try {
-        const res = await fetch("https://192.168.0.105:8443/devices/" + deviceId);
+        const res = await fetch("https://192.168.0.105:8443/devices/" + deviceId,{
+            headers: { "Authorization": "Bearer " + getToken() }
+        });
         const d = await res.json();
 
         document.getElementById("devName").textContent = d.name;
@@ -56,7 +67,9 @@ async function loadHistory() {
         const url = `https://192.168.0.105:8443/maintenance/device/${deviceId}`;
         console.log("Calling:", url);
 
-        const res = await fetch(url);
+        const res = await fetch(url,{
+            headers: { "Authorization": "Bearer " + getToken() }
+        });
 
         console.log("Status:", res.status);
 

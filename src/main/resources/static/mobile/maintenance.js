@@ -1,5 +1,14 @@
 const params = new URLSearchParams(window.location.search);
 const deviceId = params.get("id");
+function getToken() {
+    const t = localStorage.getItem("jwt");
+    if (!t) {
+        window.location.href = "login.html";
+        return null;
+    }
+    return t;
+}
+
 
 async function submitMaintenance() {
 
@@ -14,6 +23,8 @@ async function submitMaintenance() {
         const res = await fetch("https://192.168.0.105:8443/maintenance/add", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
+            headers: { "Authorization": "Bearer " + getToken() },
+
             body: JSON.stringify(payload)
         });
 
@@ -62,6 +73,7 @@ async function createMaintenance() {
         const res = await fetch("https://192.168.0.105:8443/maintenance", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
+            headers: { "Authorization": "Bearer " + getToken() },
             body: JSON.stringify(payload)
         });
 
@@ -83,7 +95,8 @@ async function createMaintenance() {
 async function completeMaintenance(id) {
     try {
         const res = await fetch(`${API}/maintenance/${id}/complete`, {
-            method: "PUT"
+            method: "PUT",
+            headers: { "Authorization": "Bearer " + getToken() }
         });
 
         if (!res.ok) {

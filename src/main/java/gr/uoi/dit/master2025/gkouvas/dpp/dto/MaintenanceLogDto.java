@@ -26,15 +26,7 @@ public class MaintenanceLogDto {
     private String description;
     private String technician;
 
-    /*public MaintenanceLogDto(Long logId, Long deviceId, Long buildingId,
-                             String description, String technician, LocalDate date) {
-        this.logId = logId;
-        this.deviceId = deviceId;
-        this.buildingId = buildingId;
-        this.description = description;
-        this.technician = technician;
-        this.maintenanceDate = date;
-    }*/
+
     public MaintenanceLogDto(){}
 
 }

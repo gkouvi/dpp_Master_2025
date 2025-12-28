@@ -1,5 +1,6 @@
 package gr.uoi.dit.master2025.gkouvas.dpp.service;
 
+import gr.uoi.dit.master2025.gkouvas.dpp.dto.MaintenanceDailySummaryDTO;
 import gr.uoi.dit.master2025.gkouvas.dpp.dto.MaintenanceLogDto;
 import gr.uoi.dit.master2025.gkouvas.dpp.entity.Building;
 import gr.uoi.dit.master2025.gkouvas.dpp.entity.Device;
@@ -97,7 +98,7 @@ public class MaintenanceService {
             log.setPerformedDate(LocalDate.now());
             log.setStatus(MaintenanceStatus.COMPLETED);
         } else if (log.getStatus() == null) {
-            log.setStatus(MaintenanceStatus.PLANNED);
+            log.setStatus(MaintenanceStatus.PENDING);
         }
 
         MaintenanceLog saved = maintenanceRepository.save(log);
@@ -107,7 +108,7 @@ public class MaintenanceService {
     public MaintenanceLogDto complete(Long id) {
         MaintenanceLog m = maintenanceRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Δεν βρέθηκε συντήρησηd: " + id));
-
+        System.out.println("complete maintenanc id = "+id);
         m.setPerformedDate(LocalDate.now());
         m.setStatus(MaintenanceStatus.COMPLETED);
 
@@ -148,6 +149,9 @@ public class MaintenanceService {
         m.setDescription(dto.getDescription());
         m.setTechnician(dto.getTechnician());
         m.setStatus(dto.getStatus());
+        m.setDevice(deviceRepository.getReferenceById((dto.getDeviceId())));
+        m.setBuilding(buildingRepository.getReferenceById((dto.getBuildingId())));
+        m.setMaintenanceDate(dto.getMaintenanceDate());
 
         // Device/Building μπαίνουν στο service.
         return m;
@@ -199,6 +203,17 @@ public class MaintenanceService {
 
         return result;
     }
+
+
+
+    public List<MaintenanceDailySummaryDTO> getDailySummaryForDevice(Long deviceId) {
+        return maintenanceRepository.findDailySummaryByDevice(deviceId);
+    }
+
+    public List<MaintenanceDailySummaryDTO> getGlobalDailySummary() {
+        return maintenanceRepository.findGlobalDailySummary();
+    }
+
 
 
 }

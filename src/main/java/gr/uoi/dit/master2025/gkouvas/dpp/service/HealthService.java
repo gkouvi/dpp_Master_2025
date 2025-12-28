@@ -31,7 +31,7 @@ public class HealthService {
             DeviceHealthDto h = new DeviceHealthDto();
             h.deviceId = d.getDeviceId();
             h.name = d.getName();
-            h.online = !Boolean.TRUE.equals(d.getOffline());
+            h.online = Boolean.FALSE.equals(d.getOffline());//;ήταν πριν !Boolean.TRUE.equals(d.getOffline())
             h.lastCheck = d.getLastCheck();
             h.uptimePercent = calculateUptime(d.getDeviceId());
             return h;

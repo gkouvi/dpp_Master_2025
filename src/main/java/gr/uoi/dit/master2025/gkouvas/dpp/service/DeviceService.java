@@ -223,11 +223,13 @@ import gr.uoi.dit.master2025.gkouvas.dpp.entity.Device;
 import gr.uoi.dit.master2025.gkouvas.dpp.exception.ResourceNotFoundException;
 import gr.uoi.dit.master2025.gkouvas.dpp.repository.BuildingRepository;
 import gr.uoi.dit.master2025.gkouvas.dpp.repository.DeviceRepository;
+import gr.uoi.dit.master2025.gkouvas.dpp.util.MaintenanceStatus;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
@@ -273,16 +275,21 @@ public class DeviceService {
         d.setFirmwareVersion(dto.getFirmwareVersion());
         d.setStatus(dto.getStatus());
         d.setIpAddress(dto.getIpAddress());
+        //d.setQrCode(dto.getQrCode());
 
-       // NEW - MULTIPLE INTERVALS
+       //  MULTIPLE INTERVALS
         if (dto.getMaintenanceIntervals() != null) {
             d.setMaintenanceIntervals(dto.getMaintenanceIntervals());
         }
         d.setLastMaintenanceDate(LocalDate.now());
+        d.setLastCheck(LocalDateTime.now());
 
         Building b = buildingRepository.findById(dto.getBuildingId())
                 .orElseThrow();
         d.setBuilding(b);
+        d.setBimElementId(dto.getBimElementId());
+        d.setBimDiscipline(dto.getBimDiscipline());
+
 
         Device saved = deviceRepository.save(d);
 
@@ -292,6 +299,10 @@ public class DeviceService {
         log.setDescription("Αρχική εγγραφή συσκευής");
         log.setTechnician("ΣΥΣΤΗΜΑ");
         log.setMaintenanceDate(LocalDate.now());
+        log.setInterval(MaintenanceInterval.ANNUAL);
+        log.setBuildingId(saved.getBuilding().getId());
+        log.setStatus(MaintenanceStatus.COMPLETED);
+        log.setPerformedDate(LocalDate.now());
         maintenanceService.createLog(log);
 
         return new DeviceDto(saved);
@@ -325,6 +336,8 @@ public class DeviceService {
         d.setStatus(dto.getStatus());
         d.setIpAddress(dto.getIpAddress());
         d.setOffline(dto.isOffline());
+        d.setBimElementId(dto.getBimElementId());
+        d.setBimDiscipline(dto.getBimDiscipline());
 
         if (dto.getLastMaintenanceDate() != null) {
             d.setLastMaintenanceDate(dto.getLastMaintenanceDate());

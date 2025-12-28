@@ -1,5 +1,6 @@
 package gr.uoi.dit.master2025.gkouvas.dpp.controller;
 
+import gr.uoi.dit.master2025.gkouvas.dpp.dto.MaintenanceBoxesKpiDto;
 import gr.uoi.dit.master2025.gkouvas.dpp.dto.MaintenanceStatsDto;
 import gr.uoi.dit.master2025.gkouvas.dpp.service.MaintenanceStatsService;
 import org.springframework.http.ResponseEntity;
@@ -21,4 +22,10 @@ public class MaintenanceStatsController {
     public ResponseEntity<MaintenanceStatsDto> getMonthlyStats() {
         return ResponseEntity.ok(service.getStats());
     }
+
+    @GetMapping("/kpi")
+    public ResponseEntity<MaintenanceBoxesKpiDto> getKpis() {
+        return ResponseEntity.ok(service.getKpis());
+    }
+
 }

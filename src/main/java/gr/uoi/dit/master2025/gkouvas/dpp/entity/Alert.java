@@ -1,6 +1,8 @@
 package gr.uoi.dit.master2025.gkouvas.dpp.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import gr.uoi.dit.master2025.gkouvas.dpp.util.AlertSeverity;
+import gr.uoi.dit.master2025.gkouvas.dpp.util.AlertStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -34,12 +36,21 @@ public class Alert {
     private String message;
 
     /** Optional due date (e.g., expiration, required action date) */
-    private LocalDate dueDate;
+    @Column(name = "due_date")
+    private LocalDateTime dueDate;
 
-    /** Alert status: Active / Resolved */
-    private String status;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private AlertStatus status;
+
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private AlertSeverity severity;
+
 
 }

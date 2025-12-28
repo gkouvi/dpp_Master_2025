@@ -1,5 +1,6 @@
 package gr.uoi.dit.master2025.gkouvas.dpp.controller;
 
+import gr.uoi.dit.master2025.gkouvas.dpp.dto.MaintenanceDailySummaryDTO;
 import gr.uoi.dit.master2025.gkouvas.dpp.dto.MaintenanceLogDto;
 import gr.uoi.dit.master2025.gkouvas.dpp.service.MaintenanceService;
 import org.springframework.http.ResponseEntity;
@@ -37,6 +38,8 @@ public class MaintenanceController {
     public MaintenanceLogDto createMaintenance(@RequestBody MaintenanceLogDto dto) {
         return service.createLog(dto);
     }
+
+
     @PutMapping("/{id}/complete")
     public ResponseEntity<MaintenanceLogDto> complete(@PathVariable Long id) {
         return ResponseEntity.ok(service.complete(id));
@@ -51,5 +54,17 @@ public class MaintenanceController {
     public ResponseEntity<Map<String, Long>> getUpcomingByMonth() {
         return ResponseEntity.ok(service.getUpcomingByMonth());
     }
+
+    @GetMapping("/device/{deviceId}/summary")
+    public List<MaintenanceDailySummaryDTO> getMaintenanceSummary(
+            @PathVariable Long deviceId) {
+        return service.getDailySummaryForDevice(deviceId);
+    }
+
+    @GetMapping("/summary")
+    public List<MaintenanceDailySummaryDTO> getGlobalMaintenanceSummary() {
+        return service.getGlobalDailySummary();
+    }
+
 
 }

@@ -6,6 +6,8 @@ import gr.uoi.dit.master2025.gkouvas.dpp.entity.Device;
 import gr.uoi.dit.master2025.gkouvas.dpp.exception.ResourceNotFoundException;
 import gr.uoi.dit.master2025.gkouvas.dpp.repository.AlertRepository;
 import gr.uoi.dit.master2025.gkouvas.dpp.repository.DeviceRepository;
+import gr.uoi.dit.master2025.gkouvas.dpp.util.AlertSeverity;
+import gr.uoi.dit.master2025.gkouvas.dpp.util.AlertStatus;
 import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Service;
 
@@ -71,9 +73,11 @@ public class AlertService {
         Alert alert = new Alert();
         alert.setDevice(device);
         alert.setMessage(dto.getMessage());
-        alert.setDueDate(dto.getDueDate());
+        alert.setDueDate(calculateDueDate(dto.getCreatedAt(),dto.getSeverity()));
         alert.setStatus(dto.getStatus());
         alert.setCreatedAt(LocalDateTime.now());
+        alert.setSeverity(dto.getSeverity());
+
 
         Alert saved = alertRepository.save(alert);
         return toDto(saved);
@@ -91,6 +95,8 @@ public class AlertService {
         dto.setDueDate(alert.getDueDate());
         dto.setStatus(alert.getStatus());
         dto.setCreatedAt(alert.getCreatedAt());
+        dto.setSeverity(alert.getSeverity());
+        dto.setDueDate(alert.getDueDate());
 
         if (alert.getDevice() != null) {
             dto.setDeviceId(alert.getDevice().getDeviceId());
@@ -109,6 +115,9 @@ public class AlertService {
         entity.setStatus(dto.getStatus());
         entity.setDueDate(dto.getDueDate());
         entity.setDevice(deviceRepository.findById(dto.getDeviceId()).orElse(null));
+        entity.setSeverity(dto.getSeverity());
+        entity.setCreatedAt(LocalDateTime.now());
+
 
         return toDto(alertRepository.save(entity));
     }
@@ -116,9 +125,10 @@ public class AlertService {
     public void createOfflineAlert(Device d) {
         Alert a = new Alert();
         a.setDevice(d);
-        a.setStatus("OFFLINE");
+        a.setStatus(AlertStatus.OPEN);
         a.setMessage("Η συσκευή δεν ανταποκρίθηκε στο ping");
-        //a.setDueDate(LocalDate.now());
+        a.setSeverity(AlertSeverity.HIGH);
+        a.setDueDate(calculateDueDate(LocalDateTime.now(),AlertSeverity.HIGH));
         a.setCreatedAt(LocalDateTime.now());
         alertRepository.save(a);
     }
@@ -126,11 +136,25 @@ public class AlertService {
     public void createOnlineAlert(Device d) {
         Alert a = new Alert();
         a.setDevice(d);
-        a.setStatus("ONLINE");
+        a.setStatus(AlertStatus.CLOSED);
         a.setMessage("Η συσκευή είναι ξανά προσβάσιμη");
-        //a.setDueDate(LocalDate.now());
+        a.setDueDate(LocalDateTime.now());
         a.setCreatedAt(LocalDateTime.now());
+        a.setSeverity(AlertSeverity.LOW);
+
 alertRepository.save(a);
+    }
+
+    private LocalDateTime calculateDueDate(
+            LocalDateTime createdAt,
+            AlertSeverity severity) {
+
+        return switch (severity) {
+            case LOW -> createdAt.plusHours(72);
+            case MEDIUM -> createdAt.plusHours(48);
+            case HIGH -> createdAt.plusHours(24);
+            case CRITICAL -> createdAt.plusHours(4);
+        };
     }
 
 

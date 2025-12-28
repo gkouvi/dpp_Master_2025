@@ -7,11 +7,22 @@ window.onload = () => {
 
     loadEnvironmentalEdit();
 };
+function getToken() {
+    const t = localStorage.getItem("jwt");
+    if (!t) {
+        window.location.href = "login.html";
+        return null;
+    }
+    return t;
+}
+
 
 /* ================ LOAD EXISTING DATA ================== */
 async function loadEnvironmentalEdit() {
     try {
-        const res = await fetch(`${API}/environment/${deviceId}`);
+        const res = await fetch(`${API}/environment/${deviceId}`,{
+            headers: { "Authorization": "Bearer " + getToken() }
+        });
 
         if (!res.ok) return;
 
@@ -43,6 +54,7 @@ async function saveEnvironmental() {
         const res = await fetch(`${API}/environment`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
+            headers: { "Authorization": "Bearer " + getToken() },
             body: JSON.stringify(payload)
         });
 
